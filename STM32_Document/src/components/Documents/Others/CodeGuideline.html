@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STM32 応用編2</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../Format.css">
+</head>
+<body>
+    <main>
+        <h3>コードガイドライン</h3>
+
+        <h1>コードの書き方のルール</h1>
+
+        <h2>目次</h2>
+
+        <div class="note">
+            <ul>
+                <li>1. 関数と変数</li>
+                <li>2. クラスと構造体</li>
+                <li>3. コメント</li>
+                <li>4. 便利な構文</li>
+            </ul>
+        </div>
+
+        <h2>1. 関数と変数</h2>
+
+        <p>関数と変数にはわかりやすい名前をつけましょう</p>
+        <p>関数は動詞+名詞の順番で命名し、長くても3単語程度にしましょう</p>
+
+        <h3>通常の関数と変数</h3>
+
+        <p>また、関数と変数を明確に区別するために以下のような書き方のルールを採用します</p>
+
+        <li><strong>関数は単語の頭を大文字にするパスカルケース</strong></li>
+
+        <li><strong>変数は小文字とアンダーバーを用いるスネークケース</strong></li>
+
+        <p>関数の仮引数は、可能な限り使うと予測される変数名にしておきましょう</p>
+
+        <pre><code class="language-cpp">int16_t raw_data;
+void GetSensorData(raw_data));</code></pre>
+        
+        <h3>#defineを用いる場合</h3>
+        <p>#defineの場合は、すべて大文字で定義しましょう</p>
+        <p>これは、コンパイル時に処理されるため他の変数と混同しないために重要です</p>
+
+        <pre><code class="language-cpp">#define PI = 3.14159
+#define MAX_SIZE = 100</code></pre>
+        </code></pre>
+
+        <h2>2. クラスと構造体</h2>
+
+        <p>クラスと構造体には、インスタンスがあるため特殊な命名をします</p>
+
+        <p>メンバー変数とメンバー関数は、上記の命名規則を使います</p>
+
+        <li><strong>定義はパスカルケース</strong></li>
+
+        <li><strong>インスタンスはスネークケース</strong></li>
+        
+        <h3>クラスと構造体の定義</h3>
+        <pre><code class="language-cpp">struct Data{
+
+    int16_t id = 0;
+    int16_t raw_data = 0;
+    int16_t data_index = 0;
+};</code></pre>
+
+        <pre><code class="language-cpp">class Sensor{
+
+    public:
+        
+        Sensor(int32_t pin_data);
+        void Setting(uint8_t mode);
+        void GetData(int16_t raw_data);
+
+    pritvate:
+
+        int32_t pin_data = 0;
+        int16_t raw_data = 0;
+}</code></pre>
+
+        <h3>クラスと構造体のインスタンス</h3>
+        <pre><code class="language-cpp">Data data;
+Sensor sensor(15);
+
+sensor.Setting(0);
+sensor.GetData(data.raw_data);</code></pre>
+
+        <h3>列挙型の使用</h3>
+
+        <p>列挙型は、enum classを使用します</p>
+        <p>設定の値などのマジックナンバー化してしまうものは、列挙型を使うことが望ましいです</p>
+
+        <p>上記の例だと、Setting(0)が何を示しているかわからないため</p>
+
+        <p>クラス内に列挙型を定義し、文字と数字を対応させましょう</p>
+        
+        <p>列挙型関連の命名規則は、以下のように書きます</p>
+        <li><strong>列挙型名はパスカルケース</strong></li>
+        <li><strong>インスタンスはスネークケース</strong></li>
+
+        <pre><code class="language-cpp">enum class Mode: uint8_t{
+    power_off = 0,
+    power_on = 1,
+}</code></pre>    
+
+        <p>このようにすることで、関数の引数に意味を持たせることができます</p>
+
+        <pre><code class="language-cpp">sensor.Setting(sensor.Mode::power_on);</code></pre>
+
+        <h2>3. コメント</h2>
+        <p>コメントはほかの人や未来の自分が読むために重要です</p>
+
+        <p>普段からコードを書く際には、処理のかたまりごとに何をしているのかを書いておきましょう</p>
+
+        <h2>リンク</h2>
+        <a href= "https://nokolat.github.io/2025_STM32_Document/"><h3>・メインページ</h3></a>
+    </main>
+    <footer>
+        <p>&copy; 2025 東京農工大学 航空研究会</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
+</body>
+</html>
