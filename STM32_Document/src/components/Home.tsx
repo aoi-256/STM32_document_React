@@ -43,12 +43,9 @@ function Home() {
   // チェックボックスのコンポーネント
   function CheckableLink({ href, children, itemId }: CheckableLinkProps) {
     const handleClick = () => {
-      // React Routerでナビゲーション（Reactコンポーネントの場合）
+      // React Routerでナビゲーション
       if (href.startsWith('/setup/') || href.startsWith('/basic/') || href.startsWith('/advance/') || href.startsWith('/dev/') || href.startsWith('/supplement/')) {
         navigate(href);
-      } else {
-        // HTMLファイルを新しいタブで開く（まだ移植されていないページ）
-        window.open(href, '_blank');
       }
     };
 
@@ -241,20 +238,6 @@ function Home() {
             </CheckableLink>
           </div>
         </div>
-
-        <div className="section-container">
-          <h2 className="section-title">その他</h2>
-          <p className="section-description">コーディングガイドラインやテンプレートなど</p>
-
-          <a href="/src/components/Documents/Others/CodeGuideline.html" target="_blank" rel="noopener noreferrer">
-            コーディングガイドライン
-          </a>
-
-          <a href="/src/components/Documents/Others/template.html" target="_blank" rel="noopener noreferrer">
-            テンプレート
-          </a>
-        </div>
-
       </div>
     </div>
   );
