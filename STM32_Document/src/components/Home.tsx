@@ -1,13 +1,32 @@
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Format.css'; // Format.cssをインポート
 
 function Home() {
+
+  const navigate = useNavigate();
+
+  function CheckLoginState(){
+  
+    // ログイン状態の判定（遅延があるため、localStorageを直接参照
+    if(localStorage.getItem("isLoggedIn") !== "true") {
+
+      navigate('/');
+    }
+  }
+
+  // ページを開いたときログイン判定を行う
+  useEffect(() => {
+
+    CheckLoginState();
+  }, []);
 
   return (
 
     <div>
 
       <h1>ホームページ</h1>
-      <p>STM32ドキュメントプロジェクトへようこそ!</p>
+      <p>ようこそ {localStorage.getItem("userId")}さん!</p>
 
         <h1>STM32 開発資料（現在執筆中）</h1>
 
