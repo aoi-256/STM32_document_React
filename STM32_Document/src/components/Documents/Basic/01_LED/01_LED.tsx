@@ -3,7 +3,14 @@ import '../../../Format.css';
 
 function Basic01LED() {
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+    <div style={{ 
+      maxWidth: '800px', 
+      margin: '0 auto', 
+      padding: '2rem',
+      backgroundColor: '#1f1f1f',
+      color: '#cccccc',
+      minHeight: '100vh'
+    }}>
       <main>
         <h3>STM32資料 基礎編 1</h3>
         <h1>LEDをつけてみよう</h1>

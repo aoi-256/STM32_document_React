@@ -56,18 +56,19 @@ function CompleteButton({ itemNumber, label }: CompleteButtonProps) {
     <div style={{ 
       margin: '20px 0', 
       padding: '15px', 
-      border: '2px solid #e0e0e0', 
+      border: '2px solid #464647', 
       borderRadius: '8px',
-      backgroundColor: '#fafafa',
+      backgroundColor: '#2d2d30',
+      color: '#cccccc',
       textAlign: 'center'
     }}>
       <button
         onClick={handleComplete}
         disabled={isCompleting || isCompleted}
         style={{
-          backgroundColor: isCompleted ? '#28a745' : '#007bff',
-          color: 'white',
-          border: 'none',
+          backgroundColor: isCompleted ? '#4ec9b0' : '#4fc1ff',
+          color: '#000000',
+          border: '1px solid #464647',
           padding: '12px 24px',
           borderRadius: '6px',
           fontSize: '16px',
@@ -85,8 +86,8 @@ function CompleteButton({ itemNumber, label }: CompleteButtonProps) {
           marginTop: '10px',
           padding: '8px',
           borderRadius: '4px',
-          backgroundColor: message.includes('エラー') ? '#f8d7da' : '#d4edda',
-          color: message.includes('エラー') ? '#721c24' : '#155724',
+          backgroundColor: message.includes('エラー') ? '#2d1b1b' : '#0e2f21',
+          color: message.includes('エラー') ? '#f85149' : '#4ec9b0',
           fontSize: '14px'
         }}>
           {message}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"; 
+import React, {useState} from "react"; 
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -90,11 +90,11 @@ function Login() {
                 {/* エラーメッセージ表示 */}
                 {errorMessage && (
                     <div style={{ 
-                        backgroundColor: '#f8d7da',
-                        color: '#721c24',
+                        backgroundColor: '#2d1b1b',
+                        color: '#f85149',
                         padding: '12px',
                         marginBottom: '20px',
-                        border: '1px solid #f5c6cb',
+                        border: '1px solid #f85149',
                         borderRadius: '4px',
                         fontSize: '14px'
                     }}>
@@ -115,10 +115,12 @@ function Login() {
                     style={{ 
                         width: '100%',
                         padding: '12px', 
-                        border: '1px solid #ccc',
+                        border: '1px solid #464647',
                         borderRadius: '4px',
                         fontSize: '16px',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: '#2d2d30',
+                        color: '#cccccc'
                     }}
                 />
                 </div>
@@ -136,10 +138,12 @@ function Login() {
                     style={{ 
                         width: '100%',
                         padding: '12px', 
-                        border: '1px solid #ccc',
+                        border: '1px solid #464647',
                         borderRadius: '4px',
                         fontSize: '16px',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: '#2d2d30',
+                        color: '#cccccc'
                     }}
                 />
                 </div>
@@ -150,9 +154,9 @@ function Login() {
                     style={{ 
                         width: '100%', 
                         padding: '12px',
-                        backgroundColor: '#007bff',
-                        color: 'white',
-                        border: 'none',
+                        backgroundColor: '#4ec9b0',
+                        color: '#000000',
+                        border: '1px solid #4ec9b0',
                         borderRadius: '4px',
                         fontSize: '16px',
                         cursor: 'pointer'
@@ -166,8 +170,20 @@ function Login() {
 
     // 条件ごとの画面を返す（表示）
     return (
-        <div style={{ maxWidth: '400px', margin: '0 auto', padding: '2rem' }}>
-            {content}
+        <div style={{ 
+            maxWidth: '400px', 
+            margin: '0 auto', 
+            padding: '2rem',
+            backgroundColor: '#1f1f1f',
+            color: '#cccccc',
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}>
+            <div style={{ width: '100%' }}>
+                {content}
+            </div>
         </div>
     )
 }

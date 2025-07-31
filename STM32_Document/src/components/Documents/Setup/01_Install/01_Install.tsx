@@ -3,7 +3,14 @@ import '../../../Format.css';
 
 function Setup01Install() {
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+    <div style={{ 
+      maxWidth: '800px', 
+      margin: '0 auto', 
+      padding: '2rem',
+      backgroundColor: '#1f1f1f',
+      color: '#cccccc',
+      minHeight: '100vh'
+    }}>
       <main>
         <h3>STM32資料 導入 1</h3>
         <h1>開発に必要なソフトをインストールしよう！</h1>

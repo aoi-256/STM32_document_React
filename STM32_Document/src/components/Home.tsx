@@ -53,26 +53,22 @@ function Home() {
     };
 
     return (
-      <div>
+      <div 
+        className="checkable-link-item"
+        onClick={handleClick}
+      >
         <input
           type="checkbox"
-          checked={progress[itemId] || false} // progressがundefinedでもfalseになる
+          checked={progress[itemId] || false}
           readOnly
-        />
-        <button 
-          onClick={handleClick}
+          className="checkable-link-checkbox"
           style={{
-            backgroundColor: progress[itemId] ? '#28a745' : '#007bff', // 完了時は緑、未完了時は青
-            color: 'white',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            marginLeft: '8px'
+            accentColor: progress[itemId] ? '#4ec9b0' : '#4fc1ff'
           }}
-        >
+        />
+        <span className="checkable-link-text">
           {children}
-        </button>
+        </span>
       </div>
     );
   }
@@ -91,7 +87,7 @@ function Home() {
   // ローディング中の表示
   if (isLoading) {
     return (
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <div className="home-content">
         <h2>読み込み中...</h2>
       </div>
     );
@@ -99,10 +95,15 @@ function Home() {
 
   return (
 
-    <div>
+    <div className="home-content">
+      <div className="home-header">
+        <div className="user-info">
+          ようこそ {localStorage.getItem("userId")}さん!
+        </div>
+      </div>
 
-      <h1>ホームページ</h1>
-      <p>ようこそ {localStorage.getItem("userId")}さん!</p>
+      <div className="home-main-content">
+        <h1>ホームページ</h1>
 
         <h1>STM32 開発資料（現在執筆中）</h1>
 
@@ -110,140 +111,150 @@ function Home() {
 
         <p><strong>はじめての方にも分かりやすくするため、多少厳密ではない部分があります</strong></p>
         
-        <h2>
-          導入編
-        </h2>
-        <p>STM32の開発環境を導入しよう</p>
+        <div className="section-container">
+          <h2 className="section-title">導入編</h2>
+          <p className="section-description">STM32の開発環境を導入しよう</p>
 
-        <CheckableLink href="/setup/01" itemId="setup_01">
-          導入編1 STM32をインストールしよう
-        </CheckableLink>
+          <div className="checkable-links-container">
+            <CheckableLink href="/setup/01" itemId="setup_01">
+              導入編1 STM32をインストールしよう
+            </CheckableLink>
 
-        <CheckableLink href="/setup/02" itemId="setup_02">
-          導入編2 コードを書くための準備をしよう
-        </CheckableLink>
+            <CheckableLink href="/setup/02" itemId="setup_02">
+              導入編2 コードを書くための準備をしよう
+            </CheckableLink>
+          </div>
+        </div>
 
-        <h2>
-          基礎編
-        </h2>
+        <div className="section-container">
+          <h2 className="section-title">基礎編</h2>
 
-        <h3>基本的な機能を実際に動かして体験してみよう</h3>
-        <p>基礎編1~6を使って、基礎編7と8のプログラムを書いてみよう!</p>
-        <p>サンプルコードを参考にどのようにしたら動くのかを学んでみよう</p>
+          <h3>基本的な機能を実際に動かして体験してみよう</h3>
+          <p className="section-description">基礎編1~6を使って、基礎編7と8のプログラムを書いてみよう!</p>
+          <p className="section-description">サンプルコードを参考にどのようにしたら動くのかを学んでみよう</p>
 
-        <CheckableLink href="/basic/01" itemId="basic_01">
-          基礎編1 LEDをつける
-        </CheckableLink>
+          <div className="checkable-links-container">
+            <CheckableLink href="/basic/01" itemId="basic_01">
+              基礎編1 LEDをつける
+            </CheckableLink>
 
-        <CheckableLink href="/basic/02" itemId="basic_02">
-          基礎編2 シリアル通信（送信）
-        </CheckableLink>
+            <CheckableLink href="/basic/02" itemId="basic_02">
+              基礎編2 シリアル通信（送信）
+            </CheckableLink>
 
-        <CheckableLink href="/basic/03" itemId="basic_03">
-          基礎編3 シリアル通信（受信）
-        </CheckableLink>
+            <CheckableLink href="/basic/03" itemId="basic_03">
+              基礎編3 シリアル通信（受信）
+            </CheckableLink>
 
-        <CheckableLink href="/basic/04" itemId="basic_04">
-          基礎編4 サーボモータを動かそう(PWM)
-        </CheckableLink>
+            <CheckableLink href="/basic/04" itemId="basic_04">
+              基礎編4 サーボモータを動かそう(PWM)
+            </CheckableLink>
 
-        <CheckableLink href="/basic/05" itemId="basic_05">
-          基礎編5 赤外線を検知しよう(ADC)
-        </CheckableLink>
+            <CheckableLink href="/basic/05" itemId="basic_05">
+              基礎編5 赤外線を検知しよう(ADC)
+            </CheckableLink>
 
-        <CheckableLink href="/basic/06" itemId="basic_06">
-          基礎編6 SBUSを受信してみよう
-        </CheckableLink>
+            <CheckableLink href="/basic/06" itemId="basic_06">
+              基礎編6 SBUSを受信してみよう
+            </CheckableLink>
 
-        <CheckableLink href="/basic/07" itemId="basic_07">
-          基礎編7 投下装置を作ってみよう
-        </CheckableLink>
+            <CheckableLink href="/basic/07" itemId="basic_07">
+              基礎編7 投下装置を作ってみよう
+            </CheckableLink>
 
-        <CheckableLink href="/basic/08" itemId="basic_08">
-          基礎編8 投下装置を自動化しよう
-        </CheckableLink>
+            <CheckableLink href="/basic/08" itemId="basic_08">
+              基礎編8 投下装置を自動化しよう
+            </CheckableLink>
+          </div>
+        </div>
 
-        <h2>
-          応用編
-        </h2>
-        <h3>2つの通信形式でセンサーからデータを読み取ってみよう</h3>
-        <p>自分でコードを作成する部分が増えるので、少し難しくなってきます</p>
+        <div className="section-container">
+          <h2 className="section-title">応用編</h2>
+          <h3>2つの通信形式でセンサーからデータを読み取ってみよう</h3>
+          <p className="section-description">自分でコードを作成する部分が増えるので、少し難しくなってきます</p>
 
-        <CheckableLink href="/advance/01" itemId="advance_01">
-          応用編1 センサーと通信してみよう(I2C通信)
-        </CheckableLink>
+          <div className="checkable-links-container">
+            <CheckableLink href="/advance/01" itemId="advance_01">
+              応用編1 センサーと通信してみよう(I2C通信)
+            </CheckableLink>
 
-        <CheckableLink href="/advance/02" itemId="advance_02">
-          応用編2 センサーの値を読んでみよう(I2C通信)
-        </CheckableLink>
+            <CheckableLink href="/advance/02" itemId="advance_02">
+              応用編2 センサーの値を読んでみよう(I2C通信)
+            </CheckableLink>
 
-        <CheckableLink href="/advance/03" itemId="advance_03">
-          応用編3 センサーと通信してみよう(SPI通信)
-        </CheckableLink>
+            <CheckableLink href="/advance/03" itemId="advance_03">
+              応用編3 センサーと通信してみよう(SPI通信)
+            </CheckableLink>
 
-        <CheckableLink href="/advance/04" itemId="advance_04">
-          応用編4 センサーの値を読んでみよう(SPI通信)
-        </CheckableLink>
+            <CheckableLink href="/advance/04" itemId="advance_04">
+              応用編4 センサーの値を読んでみよう(SPI通信)
+            </CheckableLink>
+          </div>
+        </div>
 
-        <h2>
-          発展編
-        </h2>
-        <h3>センサーのライブラリを書いてみよう</h3>
-        <p>内容が複雑かつ言語化が難しいので対面でやりたいかも</p>
-        <p>ここまで出来たら、数学の知識と合わせてマルコプのFCが作れるかも?</p>
-        <p>サンプルコードのデバックが終わってないので、バグを倒しながら進んでください</p>
+        <div className="section-container">
+          <h2 className="section-title">発展編</h2>
+          <h3>センサーのライブラリを書いてみよう</h3>
+          <p className="section-description">内容が複雑かつ言語化が難しいので対面でやりたいかも</p>
+          <p className="section-description">ここまで出来たら、数学の知識と合わせてマルコプのFCが作れるかも?</p>
+          <p className="section-description">サンプルコードのデバックが終わってないので、バグを倒しながら進んでください</p>
 
-        <CheckableLink href="/dev/01" itemId="dev_01">
-          発展編1 構造体を使ってみよう
-        </CheckableLink>
+          <div className="checkable-links-container">
+            <CheckableLink href="/dev/01" itemId="dev_01">
+              発展編1 構造体を使ってみよう
+            </CheckableLink>
 
-        <CheckableLink href="/dev/02" itemId="dev_02">
-          発展編2 クラスを使ってみよう
-        </CheckableLink>
+            <CheckableLink href="/dev/02" itemId="dev_02">
+              発展編2 クラスを使ってみよう
+            </CheckableLink>
 
-        <CheckableLink href="/dev/03" itemId="dev_03">
-          発展編3 実際にクラスを書いてみよう
-        </CheckableLink>
-        
-        <CheckableLink href="/dev/04" itemId="dev_04">
-          発展編4 便利な機能や書き方を使ってみよう
-        </CheckableLink>
+            <CheckableLink href="/dev/03" itemId="dev_03">
+              発展編3 実際にクラスを書いてみよう
+            </CheckableLink>
+            
+            <CheckableLink href="/dev/04" itemId="dev_04">
+              発展編4 便利な機能や書き方を使ってみよう
+            </CheckableLink>
 
-        <CheckableLink href="/dev/05" itemId="dev_05">
-          発展編5 実際にクラスを書いてみよう
-        </CheckableLink>
+            <CheckableLink href="/dev/05" itemId="dev_05">
+              発展編5 実際にクラスを書いてみよう
+            </CheckableLink>
+          </div>
+        </div>
 
-        <h2>
-          補足編
-        </h2>
-        <p>必須ではないけど、知っておくと便利な機能を学んでみよう</p>
+        <div className="section-container">
+          <h2 className="section-title">補足編</h2>
+          <p className="section-description">必須ではないけど、知っておくと便利な機能を学んでみよう</p>
 
-        <CheckableLink href="/supplement/01" itemId="supplement_01">
-          補足編1 タイマー割り込み
-        </CheckableLink>
+          <div className="checkable-links-container">
+            <CheckableLink href="/supplement/01" itemId="supplement_01">
+              補足編1 タイマー割り込み
+            </CheckableLink>
 
-        <CheckableLink href="/supplement/02" itemId="supplement_02">
-          補足編2 実行時間測定（タイマー割り込み）
-        </CheckableLink>
+            <CheckableLink href="/supplement/02" itemId="supplement_02">
+              補足編2 実行時間測定（タイマー割り込み）
+            </CheckableLink>
 
-        <CheckableLink href="/supplement/03" itemId="supplement_03">
-          補足編3 printfを使ってみよう
-        </CheckableLink>
+            <CheckableLink href="/supplement/03" itemId="supplement_03">
+              補足編3 printfを使ってみよう
+            </CheckableLink>
+          </div>
+        </div>
 
-        <h2>
-          その他
-        </h2>
-        <p>コーディングガイドラインやテンプレートなど</p>
+        <div className="section-container">
+          <h2 className="section-title">その他</h2>
+          <p className="section-description">コーディングガイドラインやテンプレートなど</p>
 
-        <a href="/src/components/Documents/Others/CodeGuideline.html" target="_blank" rel="noopener noreferrer">
-          コーディングガイドライン
-        </a>
+          <a href="/src/components/Documents/Others/CodeGuideline.html" target="_blank" rel="noopener noreferrer">
+            コーディングガイドライン
+          </a>
 
-        <a href="/src/components/Documents/Others/template.html" target="_blank" rel="noopener noreferrer">
-          テンプレート
-        </a>
+          <a href="/src/components/Documents/Others/template.html" target="_blank" rel="noopener noreferrer">
+            テンプレート
+          </a>
+        </div>
 
-      
+      </div>
     </div>
   );
 };
