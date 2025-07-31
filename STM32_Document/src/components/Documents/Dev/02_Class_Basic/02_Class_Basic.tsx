@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>発展編1 構造体</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Dev02ClassBasic() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         
         <h3>STM32資料 発展編2</h3>
         <h1>クラスを使ってみよう</h1>
@@ -38,15 +34,14 @@
         <h2>ファイル構成</h2>
 
         <p>クラスを使うときは、<strong>ヘッダーファイル(.hpp)</strong>と<strong>ソースファイル(.cpp)</strong>の2つのファイルを作成する</p>
-        <pre><code class="language-cpp">//2つのファイルを作成する
+        <pre><code className="language-cpp">{`//2つのファイルを作成する
 (ClassName).hpp
-(ClassName).cpp</code></pre>        
+(ClassName).cpp`}</code></pre>        
         <p>ヘッダーファイルには、<strong>クラスの定義やメンバー変数、メンバー関数の宣言</strong>を記述する</p>
         <p>ソースファイルには、ヘッダーファイルで<strong>宣言したメンバ関数の中身</strong>を記述する</p>
         <p>このように分けることで、他のファイルからはヘッダーファイルをインクルードするだけで使用できるようになる</p>
-        <pre><code class="language-cpp">//使うときはヘッダーファイルのみをインクルード
-#include (ClassName).h</code></pre>     
-
+        <pre><code className="language-cpp">{`//使うときはヘッダーファイルのみをインクルード
+#include (ClassName).h`}</code></pre>     
 
         <p>中身が少ない場合は1つのファイルにまとめることもあるが、基本は2つに分けよう</p>
 
@@ -61,7 +56,7 @@
         <p>publicに関数、privateに変数という書き方になることが多い（やりたいことによって例外あり）</p>
 
         <p>(GetSensorData()のようなわかりやすい名前だと使うとき嬉しいね)</p>
-        <pre><code class="language-cpp">class ClassName{
+        <pre><code className="language-cpp">{`class ClassName{
 
     public:
             
@@ -72,7 +67,7 @@
                 
         //変数型はなんでもOK
         int value = 0;
-};</code></pre>        
+};`}</code></pre>        
         
         <h2>ソースファイル(.cpp)の書き方</h2>
 
@@ -88,13 +83,13 @@
 
         <p>(同じ名前で同じ型の変数は共通なので、この2つの関数を実行すると値1が元の5倍になる)</p>
 
-        <pre><code class="language-cpp">#include "ClassName.h"
+        <pre><code className="language-cpp">{`#include "ClassName.h"
 
 ClassName::Function(){
             
     //ここに関数の処理を書く
             
-} </code></pre>
+}`}</code></pre>
 
         <h2>クラスの呼び出し</h2>
 
@@ -106,18 +101,18 @@ ClassName::Function(){
 
         <p>クラスではこの動作を<strong>インスタンス化</strong>と呼ぶ</p>
 
-        <pre><code class="language-cpp">ICM45686 icm; //ICM4568クラスのインスタンスを作成</code></pre>
+        <pre><code className="language-cpp">{`ICM45686 icm; //ICM4568クラスのインスタンスを作成`}</code></pre>
 
         <p>このようにして作ったインスタンスは、構造体と同じように中身を使うことができる</p>
         <p>例えば、ICM45686クラスのメンバ関数である"GetSensorData()"を使う場合はこのように書く</p>
 
-        <pre><code class="language-cpp">icm.GetSensorData()</code></pre>
+        <pre><code className="language-cpp">{`icm.GetSensorData()`}</code></pre>
 
         <p>また同じセンサーを複数使う場合は</p>
 
-        <pre><code class="language-cpp">ICM45686 icm1; //それぞれ中身の変数は独立に管理される
+        <pre><code className="language-cpp">{`ICM45686 icm1; //それぞれ中身の変数は独立に管理される
 ICM45686 icm2;
-ICM45686 icm3;</code></pre>
+ICM45686 icm3;`}</code></pre>
 
         <p>のように複数のインスタンスを作成でき、それぞれを別の設定で好きなタイミングで実行できる</p>
 
@@ -137,7 +132,7 @@ ICM45686 icm3;</code></pre>
 
         <p>また、Pin情報を保存したいので同じ型のメンバー変数を定義した</p>
 
-        <pre><code class="language-cpp">class ICM45686{
+        <pre><code className="language-cpp">{`class ICM45686{
 
 public:
 ICM45686(I2C_HandleTypeDef* use_i2c_pin); //コンストラクタの定義
@@ -145,14 +140,14 @@ void GetSensorData(); //メンバ関数の宣言
     
 private:
 I2C_HandleTypeDef* i2c_pin; //I2Cのピン情報を格納するメンバ変数
-}</code></pre>       
+}`}</code></pre>       
 
         <h3>コンストラクタの実装</h3>
 
         <p>コンストラクタもほかの関数と同じように実装できる</p>
 
         <p>ここでは、引数で受け取った値をメンバー変数に格納している</p>
-        <pre><code class="language-cpp">#include "ICM45686.hpp" //ヘッダーファイルをインクルード
+        <pre><code className="language-cpp">{`#include "ICM45686.hpp" //ヘッダーファイルをインクルード
 
 ICM45686(I2C_HandleTypeDef* use_i2c_pin){ //コンストラクタの実装
 
@@ -161,33 +156,36 @@ i2c_pin = use_i2c_pin; //引数で渡されたI2Cのピン情報をメンバ変�
 
 //実際にI2Cの関数を使うときは
 //第1引数にi2c_pinを渡すことで、インスタンス化したときに渡したI2Cのピン情報を使うことができる
-//例: HAL_I2C_Mem_Write(i2c_pin, address, reg_address, 1, buffer, len, 1);
-</code></pre>         
+//例: HAL_I2C_Mem_Write(i2c_pin, address, reg_address, 1, buffer, len, 1);`}</code></pre>         
 
         <p>このようにすることで、インスタンス化する時にI2Cのピン情報を渡すことができる</p>
         <p>先ほどの例を使うと、異なるI2Cのピンにセンサーをそれぞれつなげるようになる</p>
 
         <p>これによって汎用性が上がるだけでなく、急な仕様変更にも対応しやすくなる</p>
 
-        <pre><code class="language-cpp">ICM45686 icm1(&hi2c1); 
+        <pre><code className="language-cpp">{`ICM45686 icm1(&hi2c1); 
 ICM45686 icm2(&hi2c2);
-ICM45686 icm3(&hi2c3);</code></pre>
+ICM45686 icm3(&hi2c3);`}</code></pre>
 
         <h2>終わりに</h2>
 
         <p>今回はクラスについて説明してみました</p>
         <p>クラスはかなり難しい部分が多いので、実際に書きながら慣れていこう</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={37} label="発展編2" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../01_Struct/01_Struct.html"><h3>・前のページ</h3></a>
-        <a href="../03_Class_Basic_Write/03_Class_Basic_Write.html"><h3>・次のページ</h3></a>
+        <a href="/dev/01"><h3>・前のページ</h3></a>
+        <a href="/dev/03"><h3>・次のページ</h3></a>
+      </main>
 
-    </main>
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Dev02ClassBasic;

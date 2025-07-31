@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基礎編7 投下装置</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
-        
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Basic07Touka() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 基礎編 7</h3>
         <h1>投下装置を作ってみよう</h1>
         <p>ここまで学んだことを使ってひこロボの物資投下ミッションで使う、投下装置を作ってみよう</p>
@@ -17,7 +12,7 @@
         <h2>今回やること</h2>
         <p>今回は、これから示す機能を持つコードと回路を作ってみよう</p>
         <p>ヒントも載せているので、困ったら前の資料やヒントを見て作ってみよう</p>
-        <div class="note">
+        <div className="note">
             <h3>投下装置</h3>
             <ul>
                 <li>プロポの6chを動かすとサーボが開いて物資が落ちる</li>
@@ -26,7 +21,9 @@
 
         <p>使ったことのないピンを使いたときは、下のリンク先を使って確認してね</p>
 
-        <a href= "https://os.mbed.com/platforms/ST-Nucleo-F446RE/"><h3>・ピン対応表のページ</h3></a>
+        <a href="https://os.mbed.com/platforms/ST-Nucleo-F446RE/" target="_blank" rel="noopener noreferrer">
+          <h3>・ピン対応表のページ</h3>
+        </a>
 
         <h2>ヒント</h2>
 
@@ -39,23 +36,22 @@
 
             <p>ピンは使ったことがあるものを選んでいるだけなので、違う番号でも大丈夫！</p>
 
-            <li>SBUSを受信するためのピン・・・USART2 RX、TX</li>
-
-            <li>サーボを動かすためのタイマー・・・TIM1 CH1</li>
-    
-        </details> 
-
+            <ul>
+              <li>SBUSを受信するためのピン・・・USART2 RX、TX</li>
+              <li>サーボを動かすためのタイマー・・・TIM1 CH1</li>
+            </ul>
+        </details>
 
         <details>
             <summary>回路</summary>
 
             <p>必要な機能からどんな回路が必要か考えてみよう</p>
 
-            <li>SBUSを受信するための回路・・・資料6の回路</li>
-
-            <li>サーボを動かすための回路・・・資料4の回路</li>
-    
-        </details> 
+            <ul>
+              <li>SBUSを受信するための回路・・・資料6の回路</li>
+              <li>サーボを動かすための回路・・・資料4の回路</li>
+            </ul>
+        </details>
 
         <details>
             <summary>プログラム</summary>
@@ -64,7 +60,7 @@
 
             <p>資料6の受信したSBUSを送信する部分を、値によってサーボを動かすプログラムに変更したらよさそう</p>
 
-            <pre><code class="language-cpp">//6chのスイッチがONの時
+            <pre><code className="language-cpp">{`//6chのスイッチがONの時
 if(sbus_data[6] > 1000){
             
     //サーボを開く
@@ -76,27 +72,27 @@ else{
             
     //サーボを閉じる
     __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1800);
-}</code></pre>
-                
-            </code></pre>
-    
-        </details> 
+}`}</code></pre>
+        </details>
 
         <h2>終わりに</h2>
 
-        がんばったねおつかれさま！
+        <p>がんばったねおつかれさま！</p>
+
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={12} label="基礎編7" />
 
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../06_SBUS/06_SBUS.html"><h3>・前のページ</h3></a>
-        <a href="../08_ToukaZidou/08_ToukaZidou.html"><h3>・次のページ</h3></a>
-        
-    </main>
+        <a href="/basic/06"><h3>・前のページ</h3></a>
+        <a href="/basic/08"><h3>・次のページ</h3></a>
+      </main>
 
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Basic07Touka;

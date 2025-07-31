@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>発展編3 Printf</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
-        
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Supplement03Printf() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 補足編3</h3>
         <h1>Printfをしてみよう</h1>
 
@@ -26,7 +21,7 @@
         <p>1つ目の引数で出力する文字と変数の位置(%dや%3.3lfなど)を定義し</p>
 
         <p>2つ目の引数で出力する変数を指定する</p>
-        <pre><code class="language-cpp">printf("number[%d] = %3.3lf", id, value[id]);</code></pre>
+        <pre><code className="language-cpp">{`printf("number[%d] = %3.3lf", id, value[id]);`}</code></pre>
 
         <p>今回はこれをHAL_UART_Transmit()送る方法を説明する</p>
 
@@ -38,14 +33,14 @@
 
         <p>main.cのインクルードのところをこのようにしよう</p>
 
-        <pre><code class="language-cpp">#include "wrapper.hpp"
-#include "stdio.h"</code></pre>
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
+#include "stdio.h"`}</code></pre>
 
         <h3>printfの定義</h3>
 
         <p>main.cの/* USER CODE BEGIN 0 */の下にこのコードを書こう</p>
 
-        <pre><code class="language-cpp">#ifdef __GNUC__
+        <pre><code className="language-cpp">{`#ifdef __GNUC__
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #else
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
@@ -55,7 +50,7 @@ PUTCHAR_PROTOTYPE{
     HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
                 
     return ch;
-}</code></pre>
+}`}</code></pre>
 
         <h2>実際に使ってみよう</h2>
 
@@ -63,39 +58,36 @@ PUTCHAR_PROTOTYPE{
 
         <p>このように自由に値などを送ることができるので、ぜひ使ってね</p>
 
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "stdio.h"
 
 void init(){
 
     float value = 0.123456789;
     int id = 1;
-    printf("number[%d] = %3.3lf\n", id, value);
+    printf("number[%d] = %3.3lf\\n", id, value);
 }
 
 void loop(){
 
-}
-
-</code></pre>
+}`}</code></pre>
 
         <h2>終わりに</h2>
         <p>今回はprintfを使ってみました</p>
         <p>これを使うことで、デバッグがやりやすくなると思うので頑張ってみてね</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={28} label="補足編3" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../02_Exec_Time/02_Exec_Time.html"><h3>・前のページ</h3></a>
+        <a href="/supplement/02"><h3>・前のページ</h3></a>
     </main>
     <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+    </div>
+  );
+}
 
-/* USER CODE BEGIN Includes */
-#include "wrapper.hpp"
-#include <stdio.h>
-/* USER CODE END Includes */
+export default Supplement03Printf;

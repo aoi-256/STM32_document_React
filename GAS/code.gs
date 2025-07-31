@@ -108,12 +108,14 @@ function handleUpdate(name, number) {
     sheet.getRange(targetRowIndex + 1, lastUpdateColumnIndex + 1).setValue(timestamp);
     
     // number列を1に更新（C列以降の数字列から該当する列を探す）
-    let numberColumnIndex = parseInt(number) + 1; // number=1なら3列目（C列）、number=2なら4列目（D列）
-    if (numberColumnIndex > 1 && numberColumnIndex <= 11) { // 1〜10の範囲チェック
+    // numberはitemMappingのインデックス番号（0-based）として扱い、handleGetProgressと同じ計算を使用
+    let itemIndex = parseInt(number); // CompleteButtonから渡されるitemNumber
+    let numberColumnIndex = itemIndex + 2; // C列から開始なので+2（handleGetProgressと同じ計算）
+    if (itemIndex >= 0 && itemIndex < 55) { // 0〜54の範囲チェック（itemMappingの範囲）
       sheet.getRange(targetRowIndex + 1, numberColumnIndex + 1).setValue(1);
     } else {
       return ContentService.createTextOutput(JSON.stringify({
-        error: "numberは1〜10の範囲で指定してください"
+        error: "itemNumberは0〜54の範囲で指定してください"
       })).setMimeType(ContentService.MimeType.JSON);
     }
     

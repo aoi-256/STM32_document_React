@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基礎編6 SBUS</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
-        
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Basic06SBUS() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 基礎編 6</h3>
         <h1>操縦機（プロポ）からデータを受信してみよう</h1>
         <p>前回覚えた割り込み処理を使って、プロポのデータを実際に読んでみよう！</p>
@@ -17,7 +12,7 @@
 
         <h2>今回やること</h2>
         <p>今回は、回路があるので少し難しいけど頑張ってね</p>
-        <div class="note">
+        <div className="note">
             <h3>作業の流れ</h3>
             <ul>
                 <li>ピンを割り当てて、割り込みの設定をする</li>
@@ -40,10 +35,14 @@
         <p>DMAの設定と同じところにあるので、USART1のDMAと一緒に設定をしておこう</p>
 
         <h3>USART1の詳細設定</h3>
-        <img src="Config_1.png">
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Basic/06_SBUS/Config_1.png" alt="USART1 Configuration" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
         
         <h3>USART1のDMA</h3>
-        <img src="Config_2.png">
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Basic/06_SBUS/Config_2.png" alt="USART1 DMA Configuration" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
 
         <h2>回路</h2>
 
@@ -52,8 +51,10 @@
         
         <h3>回路図</h3>
 
-        <P>トランジスタはN型、抵抗は1kΩを使ってね</P>
-        <img src="Circuit.png">
+        <p>トランジスタはN型、抵抗は1kΩを使ってね</p>
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Basic/06_SBUS/Circuit.png" alt="Circuit Diagram" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
 
         <h2>プログラム</h2>
 
@@ -61,13 +62,13 @@
 
         <p>プロポから送られてくるデータはSBUSと呼ばれる形式で、工夫することでシリアル通信と同じように受信ができる</p>
 
-        <P>データを分解するコードは少し難しいので、事前に用意したものを使ってね</p>
+        <p>データを分解するコードは少し難しいので、事前に用意したものを使ってね</p>
 
         <h2>サンプルコード</h2>
 
         <p>値が0になってしまったときは、黒いボタン（リセットボタン）を何回か押してみてね</p>
     
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "usart.h"
 #include "string"
 
@@ -94,7 +95,7 @@ void loop(){
     }
 
     //改行を追加
-    str = "\n";
+    str = "\\n";
     //データを送信
 	HAL_UART_Transmit(&huart2, (uint8_t *)str.c_str(),str.length(),100);
 }
@@ -125,21 +126,25 @@ void SBUS_decode(){
     SBUSData[7]  = (ReceiveBuffer[10] >> 5  | ReceiveBuffer[11] << 3)  & 0x07FF;
     SBUSData[8]  = (ReceiveBuffer[12]       | ReceiveBuffer[13] << 8)  & 0x07FF;
     SBUSData[9]  = (ReceiveBuffer[13] >> 3  | ReceiveBuffer[14] << 5)  & 0x07FF;
-}</code></pre>
+}`}</code></pre>
 
         <h2>終わりに</h2>
         <p>今回は、SBUSの受信を実際にやってみました!</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={11} label="基礎編6" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../05_ADC/05_ADC.html"><h3>・前のページ</h3></a>
-        <a href="../07_Touka/07_Touka.html"><h3>・次のページ</h3></a>
+        <a href="/basic/05"><h3>・前のページ</h3></a>
+        <a href="/basic/07"><h3>・次のページ</h3></a>
+      </main>
 
-    </main>
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Basic06SBUS;

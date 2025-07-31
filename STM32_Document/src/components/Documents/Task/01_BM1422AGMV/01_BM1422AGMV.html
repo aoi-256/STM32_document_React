@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>開発編1</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../Format.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        header, footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-left: 5px solid #2c3e50;
+            padding-left: 10px;
+        }
+        .note {
+            background-color: #e6ffed;
+            border-left: 5px solid #2cbe4e;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 2px solid #2c3e50;
+        }
+        table, th, td {
+            border: 1px solid #2c3e50;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        details {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 2px solid #2c3e50;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h3>STM32資料 開発編 1</h3>
+        <h1>地磁気センサーのライブラリを書いてみよう</h1>
+
+        <p>今回からは実際にライブラリを書いてみる</p>
+
+        <p>基本的な情報は、すべてセンサーの会社が出しているデータシートに乗っているためそこを読むことになる</p>
+
+        <p>今回は、データシートが日本語で丁寧な説明のついている地磁気センサーを選んだので、頑張って書いてみよう</p>
+
+        <h2>データシートの読み方</h2>
+
+        <p>今回は実際のデータシートを見ながら、読み方を解説していく</p>
+
+        <p>使うデータシートはこちらになるので、適宜ダウンロードしておいてね</p>
+
+        <a href= "https://akizukidenshi.com/goodsaffix/BM1422AGMV.pdf"><h3>・BM1422AGMVのデータシート</h3></a>
+
+        <h3>必要な情報</h3>
+
+        <p>データシートには製品の情報、回路設計、レジスタの情報などの様々なことが書いてあるが</p>
+
+        <p>コードを書くのに必要なことは、I2Cアドレスとレジスタの情報（アドレスと何を書き込む、読み取るか）のみである</p>
+
+        <h2>実際に読んでみよう</h2>
+
+        <p>今紹介した３つの要素を順番に探していく</p>
+
+        <h3>I2Cアドレスを探してみよう</h3>
+
+        <p>10ページ目の上にI2Cスレーブアドレスと書いてあるところがある</p>
+
+        <p>I2C通信では、通信を開始する方(STM32)をマスター、通信を受け取る方(センサー)をスレーブという</p>
+
+        <p>特定の端子の電圧によって値が変化するが、今回はADDR_Lのほうの値を使う</p>
+
+        <h3>レジスタの値を探してみよう</h3>
+
+        <p>10ページの下にレジスタマップと呼ばれる、すべてのレジスタの名前とアドレスをまとめたものがある</p>
+
+        <p>例えばWIAは0x0fレジスタに入っていることがわかる</p>
+
+        <h3>レジスタの中身を探してみよう</h3>
+
+        <p>たいていの場合、レジスタマップの上下に詳細なレジスタの説明が書かれている</p>
+
+        <p>例えばWIAは12ページの上から2番目の項目に書かれていて、0x41という値が帰ってくると書かれている</p>
+
+        <p>また、レジスタの3bit目に値を書き込みたいときは、ビットシフトという機能を使って</p>
+
+        <p>ずらすことで、enum classの値の設定がやりやすくなる</p>
+        <pre><code class="language-cpp">//レジスタに 1001 1000を書き込みたい
+
+//設定1が4桁目の0b11 設定2が8桁目の0b1の場合それぞれをずらして足し算することができる
+uint8_t command = 0b11 << 3 | 0b1 << 7; //0b11001000になる</code></pre>
+        
+        <p>実際にこのようにする場合は、設定1の値を0~3、設定2の値を0~1で定義しておけばよい</p>
+        <p>このように、ビットシフトを使うことで、レジスタの値を簡単に設定することができる</p>
+
+        <h3>センサーの起動方法を調べよう</h3>
+
+        <p>基本的には、電源の有効化、センサーの設定、値の取得という順番になる</p>
+
+        <p>このデータシートはとっても丁寧で、立ち上げのフローチャートを載せてくれてあるので、16ページを参考にしよう</p>
+
+        <h2>書いてみよう</h2>
+
+        <p>ここまでの情報をもとにクラスを書いてみよう</p>
+
+        <p>関数はWIA、Setting、GetDataを用意し、Settingはenum classで設定項目を指定しておこう</p>
+
+        <p>このセンサーはI2C通信しか対応していないが、練習のため仮想関数と継承も利用してみよう</p>
+
+
+        <h2>リンク</h2>
+        <a href= "https://nokolat.github.io/2025_STM32_Document/"><h3>・メインページ</h3></a>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 東京農工大学 航空研究会</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
+</body>
+</html>

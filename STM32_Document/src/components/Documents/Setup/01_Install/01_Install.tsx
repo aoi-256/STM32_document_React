@@ -1,7 +1,7 @@
-import CompleteButton from '../CompleteButton';
-import './Format.css';
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
 
-function Setup01() {
+function Setup01Install() {
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
       <main>
@@ -27,6 +27,10 @@ function Setup01() {
           <h3>・STM32CubeIDEのダウンロードページ</h3>
         </a>
 
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Setup/01_Install/STM32.png" alt="STM32 IDE" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
+
         <h2>TeraTerm</h2>
         <p>次に、TeraTermをインストールしよう</p>
         <p>上から2番目のTeraTerm(v5系統)というのをインストールしてね</p>
@@ -34,6 +38,10 @@ function Setup01() {
         <a href="https://forest.watch.impress.co.jp/library/software/utf8teraterm/">
           <h3>・TeraTermのダウンロードページ</h3>
         </a>
+
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Setup/01_Install/TeraTerm.png" alt="TeraTerm" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
 
         <h2>終わりに</h2>
         <p>ダウンロードが終わったら今回は終わりです!</p>
@@ -54,4 +62,4 @@ function Setup01() {
   );
 }
 
-export default Setup01;
+export default Setup01Install;

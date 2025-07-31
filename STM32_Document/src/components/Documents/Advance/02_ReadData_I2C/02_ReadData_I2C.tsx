@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STM32 応用編2</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Advance02ReadDataI2C() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 応用編2</h3>
         <h1>I2C通信でセンサーのデータを読み取ってみよう</h1>
 
@@ -18,7 +14,7 @@
 
         <p>前回のコードをそのまま使うのでプロジェクトは分けなくても大丈夫！</p>
         <p>今回からは実際に自分でコードを書いてみよう（ヒントはいっぱいあるから頑張ってね）</p>
-        <div class="note">
+        <div className="note">
             <h3>作業の流れ</h3>
             <ul>
                 <li>ピンを割り当てる（前回と同じなので省略）</li>
@@ -35,9 +31,9 @@
         <p>前回は読み取りの関数を紹介したので、書き込みの関数を紹介する</p>
     
         <h3>関数</h3>
-        <pre><code class="language-cpp">HAL_I2C_Mem_Write(&hi2cx, I2CADDR, REGISTER, REGLen, Data, DataLen, TimeOut);</code></pre>
+        <pre><code className="language-cpp">HAL_I2C_Mem_Write(&hi2cx, I2CADDR, REGISTER, REGLen, Data, DataLen, TimeOut);</code></pre>
 
-        <div class="note">
+        <div className="note">
             <h3>この関数の引数</h3>
 
             <table>
@@ -96,13 +92,13 @@
 
         <p>そのため、2つのレジスタから読み取った値を上8桁を8桁ずらして下8桁を足すことで元の16桁のデータとしている</p>
 
-        <p>書き方としては"<< 8"で8桁ずらし、2つのデータを"|"を使ってOR演算（足し算）する</p>
+        <p>書き方としては"&lt;&lt; 8"で8桁ずらし、2つのデータを"|"を使ってOR演算（足し算）する</p>
 
-        <pre><code class="language-cpp">AccelData[0]  = (int16_t)(HighByte << 8 | LowByte)</code></pre>
+        <pre><code className="language-cpp">AccelData[0]  = (int16_t)(HighByte &lt;&lt; 8 | LowByte)</code></pre>
 
         <p>前回紹介した受信のコードと合わせるとこのように書くことができる（引数の変数を定義して使ってね）</p>
 
-        <pre><code class="language-cpp">//センサーからデータを読み取り
+        <pre><code className="language-cpp">{`//センサーからデータを読み取り
 
 //受信データの配列
 uint8_t RawData[12] = {};
@@ -116,14 +112,14 @@ AccelData[2]  = (int16_t)(RawData[4] | RawData[5] << 8);
         
 GyroData[0]  = (int16_t)(RawData[6]  | RawData[7] << 8);
 GyroData[1]  = (int16_t)(RawData[8]  | RawData[9] << 8);
-GyroData[2]  = (int16_t)(RawData[10] | RawData[11] << 8);</code></pre>
+GyroData[2]  = (int16_t)(RawData[10] | RawData[11] << 8);`}</code></pre>
 
         <h2>サンプルコード</h2>
         <p>実際にICM45686から値を取得するコードを書いてみよう</p>
 
         <p>今回は最低限のレジスタ操作しかしないのでこの3つのみを設定すればよい</p>
         
-        <div class="note">
+        <div className="note">
             <h3>今回使用するレジスタ</h3>
 
             <p>WIA→ PWM_MGMT → ACEEL_DATA_X1_UIの順番で操作していこう</p>
@@ -163,23 +159,27 @@ GyroData[2]  = (int16_t)(RawData[10] | RawData[11] << 8);</code></pre>
         <p>TeraTermへの送信はusart.hと"string"をインクルードしてこのコードで送ることができる</p>
         <p>受信したデータが入っている変数がAccelDataとGyroDataになっているので必要に応じて変えてね</p>
         
-        <pre><code class="language-cpp">str = "AccelData: " + std::to_string(AccelData[0]) + std::to_string(AccelData[1]) + std::to_string(AccelData[2]) + "\n";
-str = "GyroData: " + std::to_string(GyroData[0]) + std::to_string(GyroData[1]) + std::to_string(GyroData[2]) + "\n";
-</code></pre>
+        <pre><code className="language-cpp">{`str = "AccelData: " + std::to_string(AccelData[0]) + std::to_string(AccelData[1]) + std::to_string(AccelData[2]) + "\\n";
+str = "GyroData: " + std::to_string(GyroData[0]) + std::to_string(GyroData[1]) + std::to_string(GyroData[2]) + "\\n";`}</code></pre>
 
         <h2>終わりに</h2>
 
         <p>今回は実際にセンサーデータを取得してみました</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={17} label="応用編2" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../01_WIA_I2C/01_WIA_I2C.html"><h3>・前のページ</h3></a>
-        <a href="../03_WIA_SPI/03_WIA_SPI.html"><h3>・次のページ</h3></a>
-    </main>
-    <footer>
+        <a href="/advance/01"><h3>・前のページ</h3></a>
+        <a href="/advance/03"><h3>・次のページ</h3></a>
+      </main>
+
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Advance02ReadDataI2C;

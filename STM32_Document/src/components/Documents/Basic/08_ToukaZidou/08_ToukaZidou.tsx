@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基礎編8 自動投下装置</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
-        
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Basic08ToukaZidou() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 基礎編 8</h3>
         <h1>投下装置を自動化してみよう</h1>
 
@@ -19,7 +14,7 @@
         <h2>今回やること</h2>
         <p>今回は、これから示す機能を持つコードと回路を作ってみよう</p>
         <p>ヒントも載せているので、困ったら前の資料やヒントを見て作ってみよう</p>
-        <div class="note">
+        <div className="note">
             <h3>投下装置</h3>
             <ul>
                 <li>一定以上の赤外線を検知すると自動で投下装置が作動する</li>
@@ -39,22 +34,18 @@
 
             <p>ピンは使ったことがあるものを選んでいるだけなので、違う番号でも大丈夫！</p>
 
-            <div class="note">
+            <div className="note">
                 <ul>
                     <li>ADCのためのピン・・・ADC IN0</li>
                 </ul>
             </div>
-    
-        </details> 
-
+        </details>
 
         <details>
-
             <summary>回路</summary>
             
             <p>今回新しく追加するAD変換の回路を追加しよう（資料5を見てね）</p>
-    
-        </details> 
+        </details>
 
         <details>
             <summary>プログラム</summary>
@@ -64,7 +55,7 @@
 
             <p>if文は "||" でOR、"&&"でANDとすることができるので、条件を頑張って作ってみよう</p>
 
-            <pre><code class="language-cpp">//6chのスイッチがON or スイッチがONかつADCの値が一定以上である時
+            <pre><code className="language-cpp">{`//6chのスイッチがON or スイッチがONかつADCの値が一定以上である時
 if(sbus_data[6] > 1000 || (sbus_data[5] > 1000 && ADC_Value > 2000)){
 
     //サーボを開く
@@ -75,26 +66,28 @@ else{
 
     //サーボを閉じる
     __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 1800);
-}</code></pre>
-    
-        </details> 
+}`}</code></pre>
+        </details>
 
         <h2>終わりに</h2>
 
-        <P>これで基礎編は終わりです！</P>
+        <p>これで基礎編は終わりです！</p>
         <p>がんばったねおつかれさま！</p>
+
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={13} label="基礎編8" />
 
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../07_Touka/07_Touka.html"><h3>・前のページ</h3></a>
-        <a href="../../Advance/01_WIA_I2C/01_WIA_I2C.html"><h3>・次のページ</h3></a>
-        
-    </main>
+        <a href="/basic/07"><h3>・前のページ</h3></a>
+        <a href="/advance/01"><h3>・次のページ</h3></a>
+      </main>
 
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Basic08ToukaZidou;

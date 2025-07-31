@@ -1,81 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STM32_Exec_Time</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        header, footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        h1 {
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 10px;
-        }
-        h2 {
-            border-left: 5px solid #2c3e50;
-            padding-left: 10px;
-        }
-        .note {
-            background-color: #e6ffed;
-            border-left: 5px solid #2cbe4e;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        pre {
-            background: #2d2d2d;
-            color: #f8f8f2;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            border: 2px solid #2c3e50;
-        }
-        table, th, td {
-            border: 1px solid #2c3e50;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        details {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border: 2px solid #2c3e50;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Supplement02ExecTime() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 補足編 2</h3>
         <h1>実行時間を測定してみよう</h1>
 
@@ -85,7 +14,7 @@
 
         <p>タイマー割り込みで1ミリ秒ごとにカウントアップすることで実行時間を測定します</p>
 
-        <div class="note">
+        <div className="note">
             <h3>作業の流れ</h3>
             <ul>
                 <li>ピンを割り当てて、割り込みの設定をする</li>
@@ -97,7 +26,7 @@
 
         <h2>タイマーの設定</h2>
 
-        <div class="note">
+        <div className="note">
             <h3>Configurationの設定</h3>
             <ul>
                 <li><strong>今回は内部クロックから1ミリ秒ごとにリセットされるタイマーを作成する</strong></li>
@@ -108,16 +37,15 @@
             </ul>
         </div>
 
-
         <h2>プログラム</h2>
 
         <p>前回紹介しなかった、タイマーの停止用関数を紹介します</p>
 
         <h3>TIMのスタート</h3>
         <p>指定したタイマーを停止するための関数</p>
-        <pre><code class="language-cpp">HAL_TIM_Base_Stop_IT(&htim6);</code></pre>
+        <pre><code className="language-cpp">{`HAL_TIM_Base_Stop_IT(&htim6);`}</code></pre>
 
-        <div class="note">
+        <div className="note">
             <h3>この関数の引数</h3>
 
             <table>
@@ -142,7 +70,7 @@
 
         <p>1msごとに割り込みを発生させて、実行時間を測定するプログラムを作成した</p>
 
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "tim.h"
 #include "usart.h"
 #include <string>
@@ -159,7 +87,7 @@ void init(){
     HAL_TIM_Base_Stop_IT(&htim6);
 
     //データの出力（タイマーの処理時間があるので、1ms引いておこう）
-    std::string str = "count = " + std::to_string(count - 1) + "\n";
+    std::string str = "count = " + std::to_string(count - 1) + "\\n";
     HAL_UART_Transmit(&huart2, (uint8_t*)str.c_str(), str.size(), 1000);
 }
 
@@ -175,23 +103,25 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 		count++;
 	}
-}
-
-</code></pre>
+}`}</code></pre>
 
         <h2>終わりに</h2>
         <p>今回は、タイマー割り込みを使った実行時間測定をやってみました！</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={27} label="補足編2" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../01_Tim/01_Tim.html"><h3>・前のページ</h3></a>
-        <a href="../03_printf/03_printf.html"><h3>・次のページ</h3></a>
+        <a href="/supplement/01"><h3>・前のページ</h3></a>
+        <a href="/supplement/03"><h3>・次のページ</h3></a>
 
     </main>
     <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+    </div>
+  );
+}
+
+export default Supplement02ExecTime;

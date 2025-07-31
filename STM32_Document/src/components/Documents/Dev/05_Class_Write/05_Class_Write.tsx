@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>発展編5</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Dev05ClassWrite() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         
         <h3>STM32資料 発展編5</h3>
         <h1>実際にクラスを書いてみよう</h1>
 
         <p>前回学習した内容を使って、発展編3のクラスをよりよくしてみよう</p>
 
-        <div class="note">
+        <div className="note">
             <h3>今回やること</h3>
 
             <p><strong>発展編3で書いたクラスに次の要素を追加してみよう</strong></p>
@@ -39,9 +35,9 @@
                         <th>enum classを使用</th>
                         <th>REGISTERの設定を対応させる</th>
                     </tr>
+                </tbody>
             </table>
         </div>          
-
 
         <h2>enum classを使う</h2>
 
@@ -51,21 +47,21 @@
 
         <p>値を書いたあとは";(セミコロン)"ではなく、",(カンマ)"を用いる</p>
 
-        <pre><code class="language-cpp">enum class REGISTER : uint8_t {
+        <pre><code className="language-cpp">{`enum class REGISTER : uint8_t {
 
     WIA = 0x72, //WIAレジスタのアドレス
     //他２つのレジスタの値を定義してみよう
-}</code></pre>
+}`}</code></pre>
 
         <h2>仮想関数を定義する</h2>
 
         <p>2つの通信を実装するために、仮想関数と継承を使う</p>
 
         <p>発展編3のクラスで定義したRead/Write関数を仮想関数にしてみよう</p>
-        <pre><code class="language-cpp">//書き込みと読み取りの関数
+        <pre><code className="language-cpp">{`//書き込みと読み取りの関数
 
 virtual void Read(uint8_tregister, uint8_t* rx_buffer, uint8_t len) = 0; //Read関数の宣言
-virtual void Write(uint8_t register, uint8_t* tx_buffer, uint8_t len) = 0; //Write関数の宣言</code></pre>
+virtual void Write(uint8_t register, uint8_t* tx_buffer, uint8_t len) = 0; //Write関数の宣言`}</code></pre>
 
         <p>仮想関数は、派生クラス（通信のクラス）で実装するので、ICM45686.cppからこの関数の実装部分を消しておこう</p>
     
@@ -77,7 +73,7 @@ virtual void Write(uint8_t register, uint8_t* tx_buffer, uint8_t len) = 0; //Wri
 
         <p><strong>ICM45686.cppを参考にICM45686_I2C.cppを作成してみよう</strong></p>
 
-        <pre><code class="language-cpp">// I2Cのクラスを定義
+        <pre><code className="language-cpp">{`// I2Cのクラスを定義
 class ICM45686_I2C: public ICM45686{
     
     public:
@@ -91,7 +87,7 @@ class ICM45686_I2C: public ICM45686{
         void Write(uint8_t register, uint8_t* tx_buffer, uint8_t len); //Write関数の実装
         I2C_HandleTypeDef* i2c_pin; //I2Cのピン情報を格納する変数
 
-}; //I2Cのクラスの定義</code></pre>
+}; //I2Cのクラスの定義`}</code></pre>
 
         <p>難しそうに聞こえるが、コンストラクタの実装とHALライブラリのI2C関数を利用して</p>
 
@@ -103,7 +99,7 @@ class ICM45686_I2C: public ICM45686{
 
         <p>基本的には発展編3と同じように使うことができる</p>
 
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "ICM45686_I2C.hpp"
 #include "i2c.h"
 #include "usart.h"
@@ -137,7 +133,7 @@ void loop(){
 
     //HAL_UART_Transmit(&huart2, (uint8_t*)"Gyro Data: ", 12, 1000);
     //HAL_UART_Transmit(&huart2, (uint8_t*)&gyro_data, sizeof(gyro_data), 1000);
-}</code></pre>
+}`}</code></pre>
 
         <h2>やってみよう</h2>
 
@@ -153,16 +149,19 @@ void loop(){
 
         <p>ICM45686(基底クラス)やwrapper.cppにほとんど影響を与えずに通信形式を変更でき</p>
 
-        <p></p>
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={40} label="発展編5" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../04_Class_Advance/04_Class_Advace.html"><h3>・前のページ</h3></a>
+        <a href="/dev/04"><h3>・前のページ</h3></a>
+      </main>
 
-    </main>
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Dev05ClassWrite;

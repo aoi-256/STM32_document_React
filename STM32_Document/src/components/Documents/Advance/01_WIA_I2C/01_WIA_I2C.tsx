@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STM32 応用編1</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Advance01WIAI2C() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 応用編1</h3>
         <h1>I2C通信でセンサーと通信をしてみよう</h1>
 
@@ -17,7 +13,7 @@
         <p>これはセンサーの中にある決まった値を返してくれるメモリ（レジスタ）にアクセスし通信の確立をチェックするのに使う</p>
 
         <h2>今回やること</h2>
-        <div class="note">
+        <div className="note">
             <h3>作業の流れ</h3>
             <ul>
                 <li>ピンを割り当てる</li>
@@ -26,6 +22,7 @@
                 <li>TeraTermでデータを受信する</li>
             </ul>
         </div>
+
         <h2>ピンの割り当て</h2>
         <p>今回は、I2Cという機能を使って通信を行う</p>
         <p><strong>PB8とPB9にI2C1_SCL（クロック）とI2C1_SDA（データ）</strong>を割り当てておこう</p>
@@ -37,9 +34,9 @@
         <p>今回は通信の確立テストをするだけなので、読み取り関数のみ紹介する</p>
     
         <h3>関数</h3>
-        <pre><code class="language-cpp">HAL_I2C_Mem_Read(&hi2cx, I2CADDR, REGISTER, REGLen, Data, DataLen, TimeOut);</code></pre>
+        <pre><code className="language-cpp">HAL_I2C_Mem_Read(&hi2cx, I2CADDR, REGISTER, REGLen, Data, DataLen, TimeOut);</code></pre>
 
-        <div class="note">
+        <div className="note">
             <h3>この関数の引数</h3>
 
             <table>
@@ -96,7 +93,9 @@
 
         <p>配線はこの通りに繋げば動くので、上下のピンを間違えないようにしてね</p>
 
-        <img src="Circuit.png">
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Advance/01_WIA_I2C/Circuit.png" alt="Circuit Diagram" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
 
         <table>
             <thead>
@@ -137,7 +136,7 @@
 
         <p>I2Cアドレスやレジスタアドレスもデータシートに書いてあるよ</p>
         
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "usart.h"
 #include "i2c.h"
 #include "string"
@@ -157,12 +156,12 @@ void loop(){
     HAL_I2C_Mem_Read(&hi2c1, I2CADDR, REGISTER, 1, &Data, 1, 1000);
 
     //読み取った値をPCに送信
-    std::string str = "WHOAMI: " + std::to_string(Data) + "\n";
+    std::string str = "WHOAMI: " + std::to_string(Data) + "\\n";
     HAL_UART_Transmit(&huart2, (uint8_t *)str.c_str(),str.length(),100);
 
 
     HAL_Delay(1000);
-} </code></pre>
+}`}</code></pre>
 
         <h2>終わりに</h2>
 
@@ -170,15 +169,20 @@ void loop(){
 
         <p>次回は、実際にセンサーデータを取得してみよう</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={16} label="応用編1" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../../Basic/08_ToukaZidou/08_ToukaZidou.html"><h3>・前のページ</h3></a>
-        <a href="../02_ReadData_I2C/02_ReadData_I2C.html"><h3>・次のページ</h3></a>
-    </main>
-    <footer>
+        <a href="/basic/08"><h3>・前のページ</h3></a>
+        <a href="/advance/02"><h3>・次のページ</h3></a>
+      </main>
+
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Advance01WIAI2C;

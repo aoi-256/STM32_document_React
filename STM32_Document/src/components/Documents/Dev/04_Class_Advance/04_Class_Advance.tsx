@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>発展編4</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Dev04ClassAdvance() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         
         <h3>STM32資料 発展編4</h3>
         <h1>便利な機能や書き方を使ってみよう</h1>
@@ -23,7 +19,7 @@
 
         <h2>列挙型(enum)</h2>
 
-        <p>クラスを作成することで、使用者は内部の処理を知らなくても動かすことができるようになった<p>
+        <p>クラスを作成することで、使用者は内部の処理を知らなくても動かすことができるようになった</p>
 
         <p>しかし、修正することもあるので内部の処理も分かりやすく書いた方がよい</p>
 
@@ -31,7 +27,7 @@
 
         <p>そこで、WIAレジスタのアドレスであることを列挙型(enum)を使って分かりやすく書いてみよう</p>
 
-        <pre><code class="language-cpp">//WIAを取得する関数
+        <pre><code className="language-cpp">{`//WIAを取得する関数
 uint8_t ICM45686::WIA(){
         
     uint8_t read_value = 0; //WIAの値を格納する変数
@@ -46,7 +42,7 @@ uint8_t ICM45686::WIA(){
     }
         
     return 0; //正しい場合は0を返す
-}</code></pre>
+}`}</code></pre>
 
         <h3>列挙型(enum)の定義</h3>
 
@@ -56,17 +52,17 @@ uint8_t ICM45686::WIA(){
 
         <p>また、変数型をあらかじめ決めることができ、入力ミスにはコンパイルエラーを出してくれる </p>
 
-        <pre><code class="language-cpp">レジスタアドレスの列挙型
+        <pre><code className="language-cpp">{`//レジスタアドレスの列挙型
 enum class REGISTER: uint8_t{
     
     ACCEL_DATA_X = 0x00,
     PWR_MGMT_0 = 0x0f,
     WIA = 0x72
-};</code></pre>
+};`}</code></pre>
 
         <p>実際に使用する際にはuint8_t型に明示的に変換した上で、REGISTERの中のWIAの値を使用すればよい</p>
 
-        <pre><code class="language-cpp">//WIAを取得する関数
+        <pre><code className="language-cpp">{`//WIAを取得する関数
 uint8_t ICM45686::WIA(){
             
     uint8_t read_value = 0; //WIAの値を格納する変数
@@ -81,7 +77,7 @@ uint8_t ICM45686::WIA(){
     }
             
     return 0; //正しい場合は0を返す
-}</code></pre>
+}`}</code></pre>
 
         <p>このように書くことで、引数が示していることを明確にすることができた</p>
 
@@ -109,13 +105,12 @@ uint8_t ICM45686::WIA(){
 
         <p>privateにすると親クラスのメンバ変数にアクセスできなくなる</p>
 
-        <pre><code class="language-cpp">//子クラスの作成
+        <pre><code className="language-cpp">{`//子クラスの作成
 class ICM45686_I2C: public ICM45686{
                         
     //あとはいつも通り
 
-}</code></pre>
-
+}`}</code></pre>
 
         <h2>仮想関数</h2>
 
@@ -128,39 +123,42 @@ class ICM45686_I2C: public ICM45686{
         <p>仮想環境を使うことで、ヘッダーファイルで通信関数の定義をするが、継承した別のクラスでその中身を実装することができる</p>
 
         <h3>前回の関数宣言</h3>
-        <pre><code class="language-cpp">//通信用の関数の定義
+        <pre><code className="language-cpp">{`//通信用の関数の定義
 
 //書き込みと読み取りの関数
 void Read(uint8_t reg, uint8_t* rx_buffer, uint8_t len); //Read関数の宣言
-void Write(uint8_t reg, uint8_t* tx_buffer, uint8_t len); //Write関数の宣言</code></pre>
+void Write(uint8_t reg, uint8_t* tx_buffer, uint8_t len); //Write関数の宣言`}</code></pre>
 
         <h3>仮想環境の関数宣言</h3>
 
         <p>仮想関数を定義するときはvirtualを先頭につける</p>
 
         <p>また、= 0をつけておくことで、実装を忘れたまま実行しようとした時にエラーがでるようになる</p>
-        <pre><code class="language-cpp">//通信用の関数の定義
+        <pre><code className="language-cpp">{`//通信用の関数の定義
 
 //書き込みと読み取りの関数
 virtual void Read(uint8_t reg, uint8_t* rx_buffer, uint8_t len) = 0; //Read関数の宣言
-virtual void Write(uint8_t reg, uint8_t* tx_buffer, uint8_t len) = 0; //Write関数の宣言</code></pre>
+virtual void Write(uint8_t reg, uint8_t* tx_buffer, uint8_t len) = 0; //Write関数の宣言`}</code></pre>
 
         <p>子クラスで実装するときは、これと同じ名前の関数を定義し、実装すると自動で上書き（オーバーライド）してくれる</p>
         <p>この時、引数は同じでなくてはいけない</p>
         
         <p>前回のクラスにRead/Write関数を作ってあるので、それを置き換えるだけで仮想関数の実装ができる（次回やります）</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={39} label="発展編4" />
 
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../03_Class_Basic_Write/03_Class_Basic_Write.html"><h3>・前のページ</h3></a>
-        <a href="../05_Class_Write/05_Class_Write.html"><h3>・次のページ</h3></a>
+        <a href="/dev/03"><h3>・前のページ</h3></a>
+        <a href="/dev/05"><h3>・次のページ</h3></a>
+      </main>
 
-    </main>
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Dev04ClassAdvance;

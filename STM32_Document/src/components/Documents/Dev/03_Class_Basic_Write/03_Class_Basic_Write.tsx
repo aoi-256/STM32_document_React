@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>発展編3 クラス作成</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Dev03ClassBasicWrite() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         
         <h3>STM32資料 発展編3</h3>
         <h1>実際にクラスを書いてみよう</h1>
@@ -29,7 +25,9 @@
 
         <p>今回はクラス名(ICM45686)を設定してチェックはすべて外そう</p>
 
-        <img src="Class.png">
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Dev/03_Class_Basic_Write/Class.png" alt="Class Creation" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
 
         <p>ここから作成すると、何度もインクルードしてバグが起きないようにするためのコードなどが自動で作成される</p>
         
@@ -39,7 +37,7 @@
 
         <p>ここでは、先ほどの仕様にそって3つのことを行った</p>
 
-        <div class="note">
+        <div className="note">
 
             <h3>やったこと</h3>
 
@@ -52,8 +50,7 @@
 
         <p>この関数は、メンバー関数が使うだけなのでprivateで宣言している</p>
 
-
-        <pre><code class="language-cpp">#ifndef INC_ICM45686_HPP_
+        <pre><code className="language-cpp">{`#ifndef INC_ICM45686_HPP_
 #define INC_ICM45686_HPP_
 
 #include "cstdint"
@@ -88,7 +85,7 @@ class ICM45686{
         void Write(uint8_t reg, uint8_t* tx_buffer, uint8_t len); //Write関数の宣言
 }
 
-#endif;</code></pre>
+#endif;`}</code></pre>
 
         <h2>ICM45686.cpp</h2>
 
@@ -96,7 +93,7 @@ class ICM45686{
 
         <p>クラスで定義した関数を実装するときには、(クラス名)::(関数名)と書く</p>
 
-        <div class="note">
+        <div className="note">
 
             <h3>やったこと</h3>
 
@@ -106,7 +103,7 @@ class ICM45686{
 
         <p><strong>WIA()のコードを参考にして、電源モード設定、データ取得の関数を自分で実装してみよう</strong></p>
 
-        <pre><code class="language-cpp">#include "ICM45686.hpp"
+        <pre><code className="language-cpp">{`#include "ICM45686.hpp"
 
 //コンストラクタの実装
 ICM45686::ICM45686(I2C_HandleTypeDef* use_i2c_pin){
@@ -159,7 +156,7 @@ void ICM45686::GetSensorData(int16_t accel_data[3], int16_t gyro_data[3]){
     //int16_t型にするコードは応用編2で説明したものを使おう
     //センサーから受信するためのuint8_t型のRawData[12]を宣言して12バイト分受信しよう
 
-}</code></pre>
+}`}</code></pre>
 
         <h2>実際に使ってみよう</h2>
 
@@ -169,12 +166,11 @@ void ICM45686::GetSensorData(int16_t accel_data[3], int16_t gyro_data[3]){
 
         <p>wrapper.cppはそのまま使うことができる</p>
 
-
         <p>実際にコードを見てみると、簡潔で何をしているかが分かりやすくなった</p>
 
         <p>これならあまりコードを書いたことがない人も簡単に使ってもらうことができる</p>
 
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "ICM45686.hpp"
 #include "i2c.h"
 #include "usart.h"
@@ -208,19 +204,22 @@ void loop(){
 
     //HAL_UART_Transmit(&huart2, (uint8_t*)"Gyro Data: ", 12, 1000);
     //HAL_UART_Transmit(&huart2, (uint8_t*)&gyro_data, sizeof(gyro_data), 1000);
-}</code></pre>
+}`}</code></pre>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={38} label="発展編3" />
 
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../02_Class_Basic/02_Class_Basic.html"><h3>・前のページ</h3></a>
-        <a href="../04_Class_Advance/04_Class_Advace.html"><h3>・次のページ</h3></a>
+        <a href="/dev/02"><h3>・前のページ</h3></a>
+        <a href="/dev/04"><h3>・次のページ</h3></a>
+      </main>
 
-    </main>
-    <footer>
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Dev03ClassBasicWrite;

@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基礎編3 シリアル通信（受信）</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../Format.css">
-</head>
-<body>
-    <main>
-        
+import CompleteButton from '../../../CompleteButton';
+import '../../../Format.css';
+
+function Basic03DMA() {
+  return (
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <main>
         <h3>STM32資料 基礎編 3</h3>
         <h1>シリアル通信でデータを受信しよう（割り込み処理）</h1>
         <p>前回と同じようにシリアル通信を受信するコードを書くことができる</p>
@@ -18,7 +13,7 @@
 
         <h2>今回やること</h2>
         <p>前回と同じ流れなので、資料に沿って進めてね</p>
-        <div class="note">
+        <div className="note">
             <h3>作業の流れ</h3>
             <ul>
                 <li>ピンを割り当てて、割り込みの設定をする</li>
@@ -39,17 +34,21 @@
         <p>小さくて見えない時は縁にカーソルを合わせて拡大してね</p>
 
         <h3>設定の場所</h3>
-        <img src="Config.png">
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Basic/03_DMA/Config.png" alt="DMA Configuration" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
 
         <h3>設定の内容</h3>
-        <img src="Pin.png">
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <img src="/src/components/Documents/Basic/03_DMA/Pin.png" alt="Pin Configuration" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
         
         <h2>プログラム</h2>
 
         <h3>割り込み受信の開始</h3>
-        <pre><code class="language-cpp">HAL_UART_Receive_DMA(&huart2, receive_buffer, len);</code></pre>
+        <pre><code className="language-cpp">HAL_UART_Receive_DMA(&huart2, receive_buffer, len);</code></pre>
 
-        <div class="note">
+        <div className="note">
             <h3>この関数の引数</h3>
 
             <p>前回扱った送信関数との違いは、最大時間の引数が消えているだけなので同じように使えるよ</p>
@@ -84,7 +83,7 @@
 
         <details>
             <summary>DMAとは</summary>
-            <br>
+            <br />
             <ul>
                 <li><strong>DMA(Direct Memory Access)</strong>
                     <p>通常はCPUがデータを転送するが、DMAを使うことでCPUを使わずにデータを転送することができる</p>
@@ -96,9 +95,9 @@
         </details>
 
         <h3>割り込み受信後の処理</h3>
-        <pre><code class="language-cpp">void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)</code></pre>
+        <pre><code className="language-cpp">void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)</code></pre>
 
-        <div class="note">
+        <div className="note">
             <h3>この関数の引数</h3>
 
             <p>この関数の引数はこちらから変える必要はないので毎回コピペで大丈夫</p>
@@ -128,7 +127,7 @@
         <h2>サンプルコード</h2>
         <p>実際にDMAを使って受信したデータを送り返すコードを作成した</p>
         <p>TeraTermでアルファベット1文字を送信して、同じ文字が帰ってくることを確かめてみよう</p>
-        <pre><code class="language-cpp">#include "wrapper.hpp"
+        <pre><code className="language-cpp">{`#include "wrapper.hpp"
 #include "usart.h"  
 
 uint8_t data[1];
@@ -150,29 +149,35 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
     //割り込み受信の再開
     HAL_UART_Receive_DMA(&huart2, data, 1);
 
-}</code></pre>
+}`}</code></pre>
 
-<details>
-    <summary>TeraTermでのデータ送信方法</summary>
-    <br>
-    <ul>
-        <li><strong>ローカルエコーの有効化</strong></li>
-        <p>設定(S)から端末(T)を開き、ローカルエコー(L)を有効化しよう</p>
-        <p>これでキーボード入力でデータを送信できる</p>
-    </ul>
-</details>
+        <details>
+            <summary>TeraTermでのデータ送信方法</summary>
+            <br />
+            <ul>
+                <li><strong>ローカルエコーの有効化</strong></li>
+                <p>設定(S)から端末(T)を開き、ローカルエコー(L)を有効化しよう</p>
+                <p>これでキーボード入力でデータを送信できる</p>
+            </ul>
+        </details>
+
         <h2>終わりに</h2>
         <p>今回は、割り込み処理を使ったデータ受信について紹介しました！</p>
 
+        {/* 完了ボタン */}
+        <CompleteButton itemNumber={8} label="基礎編3" />
+
         <h2>リンク</h2>
         <a href="/home"><h3>・メインページ</h3></a>
-        <a href="../02_Serial/02_Serial.html"><h3>・前のページ</h3></a>
-        <a href="../04_PWM/04_PWM.html"><h3>・次のページ</h3></a>
-    </main>
-    <footer>
+        <a href="/basic/02"><h3>・前のページ</h3></a>
+        <a href="/basic/04"><h3>・次のページ</h3></a>
+      </main>
+
+      <footer>
         <p>&copy; 2025 東京農工大学 航空研究会</p>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-cpp.min.js"></script>
-</body>
-</html>
+      </footer>
+    </div>
+  );
+}
+
+export default Basic03DMA;
