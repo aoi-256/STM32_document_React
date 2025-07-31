@@ -6,6 +6,7 @@
     margin: 0;
     padding: 20px;
     min-height: 100vh;
+    text-align: left;
 }
 
 /* home-container内のh1のみに適用 */
@@ -37,12 +38,13 @@
 }
 
 .note {
-    background-color: #0e2f21;
+    background-color: #1a3d2e;
     border-left: 5px solid #4ec9b0;
-    color: #cccccc;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
+    color: #ffffff;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: 1px solid #4ec9b0;
 }
 
 pre {
@@ -103,14 +105,20 @@ summary {
 .home-header {
     background-color: #2d2d30;
     border-bottom: 1px solid #464647;
-    padding: 12px 24px;
+    padding: 12px 16px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    margin-left: -2rem;
-    margin-right: -2rem;
-    width: calc(100% + 4rem);
+}
+
+.header-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .user-info {
@@ -129,7 +137,6 @@ summary {
 
 .section-title {
     color: #ffffff;
-    padding-left: 15px;
     margin-bottom: 1rem;
 }
 
@@ -141,7 +148,7 @@ summary {
 .checkable-links-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 8px;
 }
 
@@ -149,8 +156,6 @@ summary {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
     padding: 12px 16px;
     background-color: #2d2d30;
     border: 1px solid #464647;
@@ -165,6 +170,7 @@ summary {
 
 .checkable-link-checkbox {
     margin-right: 12px;
+    margin-left: 0;
     transform: scale(1.2);
 }
 
@@ -174,4 +180,9 @@ summary {
     color: #cccccc;
     font-size: 16px;
     font-weight: 500;
+}
+
+/* デフォルトをすべて左揃えに設定 */
+* {
+    text-align: left;
 }

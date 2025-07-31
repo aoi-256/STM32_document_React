@@ -97,15 +97,16 @@ function Home() {
 
     <div className="home-content">
       <div className="home-header">
+        <div className="header-title">
+          STM32開発資料
+        </div>
         <div className="user-info">
-          ようこそ {localStorage.getItem("userId")}さん!
+          User: {localStorage.getItem("userId")}
         </div>
       </div>
 
       <div className="home-main-content">
-        <h1>ホームページ</h1>
 
-        <h1>STM32 開発資料（現在執筆中）</h1>
 
         <p>STM32を開発していく上で必要な知識をまとめました</p>
 
